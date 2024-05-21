@@ -6,5 +6,5 @@ type Profile struct {
 	Name     string `gorm:"not null"`
 	Age      int    `gorm:"not null"`
 	Bio      string
-	PhotoURL string
+	PhotoURL string `json:"photo_url"`
 }

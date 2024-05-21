@@ -14,6 +14,8 @@ func RegisterRoutes(router *gin.Engine) {
 	protected.Use(middleware.AuthMiddleware())
 	{
 		protected.GET("/profiles", handlers.ViewProfiles)
+		protected.POST("/profiles", handlers.CreateProfile)
+		protected.PUT("/profiles", handlers.UpdateProfile)
 		protected.POST("/swipe", handlers.SwipeProfile)
 		protected.POST("/premium", handlers.PurchasePremium)
 	}

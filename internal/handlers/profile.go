@@ -29,8 +29,7 @@ func SwipeProfile(c *gin.Context) {
 		return
 	}
 
-	userID, _ := strconv.ParseUint(c.GetString("user_id"), 10, 32)
-	swipe.UserID = uint(userID)
+	swipe.UserID = uint(c.MustGet("user_id").(float64))
 	swipe.CreatedAt = time.Now()
 
 	if err := models.DB.Create(&swipe).Error; err != nil {
@@ -48,8 +47,7 @@ func PurchasePremium(c *gin.Context) {
 		return
 	}
 
-	userID, _ := strconv.ParseUint(c.GetString("user_id"), 10, 32)
-	premium.UserID = uint(userID)
+	premium.UserID = uint(c.MustGet("user_id").(float64))
 	premium.ExpiryDate = time.Now().AddDate(0, 1, 0) // 1 month premium
 
 	if err := models.DB.Create(&premium).Error; err != nil {
@@ -58,4 +56,38 @@ func PurchasePremium(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Premium package purchased successfully"})
+}
+
+func CreateProfile(c *gin.Context) {
+	var profile models.Profile
+	if err := c.ShouldBindJSON(&profile); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	profile.UserID = uint(c.MustGet("user_id").(float64))
+
+	if err := models.DB.Create(&profile).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Profile created successfully", "profile": profile})
+}
+
+func UpdateProfile(c *gin.Context) {
+	var profile models.Profile
+	if err := c.ShouldBindJSON(&profile); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	profile.UserID = uint(c.MustGet("user_id").(float64))
+
+	if err := models.DB.Model(&models.Profile{}).Where("user_id = ?", profile.UserID).Updates(profile).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Profile updated successfully", "profile": profile})
 }
