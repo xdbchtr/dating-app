@@ -46,4 +46,3 @@ This project is a backend system for a Dating Mobile App, similar to Tinder/Bumb
 - **Linting**: Golangci-lint
 
 ## Project Structure
-
