@@ -40,9 +40,8 @@ This project is a backend system for a Dating Mobile App, similar to Tinder/Bumb
 - **Database**: PostgreSQL
 - **ORM**: GORM
 - **Authentication**: JWT (JSON Web Tokens)
-- **Caching**: Redis (optional, for enhancing performance)
 - **Testing**: Go's testing package, Postman for API tests
-- **Deployment**: Docker, Kubernetes (optional)
+- **Deployment**: Docker
 
 ## API Endpoints
 
