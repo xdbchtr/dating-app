@@ -43,6 +43,49 @@ This project is a backend system for a Dating Mobile App, similar to Tinder/Bumb
 - **Caching**: Redis (optional, for enhancing performance)
 - **Testing**: Go's testing package, Postman for API tests
 - **Deployment**: Docker, Kubernetes (optional)
-- **Linting**: Golangci-lint
 
-## Project Structure
+## API Endpoints
+
+1. **User Registration**
+   - `POST /api/v1/signup`
+   - Request Body: `{ "username": "example", "password": "example", "email": "example@example.com" }`
+   - Expected Response: `{"message": "User registered successfully"}`
+
+2. **User Login**
+   - `POST /api/v1/login`
+   - Request Body: `{ "username": "example", "password": "example" }`
+   - Expected Response: `{"token": "jwt_token"}`
+
+3. **Create Profile**
+   - `POST /api/v1/profiles`
+   - Authorization: Bearer Token (obtained from login response)
+   - Request Body: `{ "name": "John Doe", "age": 30, "bio": "Love to travel and meet new people.", "photo_url": "http://example.com/photo.jpg" }`
+   - Expected Response: `{"message": "Profile created successfully", "profile": profile}`
+
+4. **View Profiles**
+   - `GET /api/v1/stack-profiles`
+   - Authorization: Bearer Token (obtained from login response)
+   - Expected Response: List of 10 profiles that the user hasn't swiped on today.
+
+5. **Swipe Profile**
+   - `POST /api/v1/swipe`
+   - Authorization: Bearer Token (obtained from login response)
+   - Request Body: `{ "profile_id": 1, "swipe_type": "like" }`
+   - Expected Response: `{"message": "Swipe recorded successfully"}` or appropriate error messages for duplicate swipes or exceeding daily limit.
+
+6. **Purchase Premium**
+   - `POST /api/v1/premium`
+   - Authorization: Bearer Token (obtained from login response)
+   - Request Body: `{ "package_type": "no_swipe_quota" }`
+   - Expected Response: `{"message": "Premium package purchased successfully"}`
+
+7. **Update Profile**
+   - `PUT /api/v1/profiles`
+   - Authorization: Bearer Token (obtained from login response)
+   - Request Body: `{ "name": "John Doe Updated", "age": 31, "bio": "Updated bio.", "photo_url": "http://example.com/new_photo.jpg" }`
+   - Expected Response: `{"message": "Profile updated successfully", "profile": profile}`
+
+8. **Liked Profiles**
+   - `GET /api/v1/profiles`
+   - Authorization: Bearer Token (obtained from login response)
+   - Expected Response: List of 10 profiles that the user hasn't swiped on today.

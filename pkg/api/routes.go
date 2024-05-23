@@ -13,7 +13,8 @@ func RegisterRoutes(router *gin.Engine) {
 	protected := router.Group("/api/v1")
 	protected.Use(middleware.AuthMiddleware())
 	{
-		protected.GET("/profiles", handlers.ViewProfiles)
+		protected.GET("/stack-profiles", handlers.GetUnswipedProfiles)
+		protected.GET("/liked-profiles", handlers.ViewLikedProfiles)
 		protected.POST("/profiles", handlers.CreateProfile)
 		protected.PUT("/profiles", handlers.UpdateProfile)
 		protected.POST("/swipe", handlers.SwipeProfile)
